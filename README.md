@@ -51,5 +51,5 @@ Do not forget to `make build` and `kubectl cp` after each change
 
 ## Commands
 
-See the [jx-changelog command reference](https://jenkins-x.io/v3/develop/reference/jx/changelog/)
+See the [jx-changelog command reference](https://jayex.io/v3/develop/reference/jx/changelog/)
 

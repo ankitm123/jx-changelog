@@ -7,7 +7,7 @@ require (
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32
 	github.com/go-git/go-git/v5 v5.19.1
 	github.com/imdario/mergo v0.3.16
-	github.com/jenkins-x-plugins/jx-gitops v1.3.0
+	github.com/jenkins-x-plugins/jx-gitops v1.3.3
 	github.com/jenkins-x/go-scm v1.15.30
 	github.com/jenkins-x/jx-api/v4 v4.8.6
 	github.com/jenkins-x/jx-helpers/v3 v3.11.0
