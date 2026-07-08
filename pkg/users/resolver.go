@@ -85,7 +85,7 @@ func (r *GitUserResolver) Resolve(user *scm.User) (*jenkinsv1.UserDetails, error
 	u = r.GitUserToUser(scmUser)
 	login := scmUser.Login
 	if login == "" {
-		login = strings.Replace(scmUser.Name, " ", "-", -1)
+		login = strings.ReplaceAll(scmUser.Name, " ", "-")
 		login = strings.ToLower(login)
 	}
 	id := naming.ToValidName(login)

@@ -245,7 +245,7 @@ func NewCmdChangelogCreate() (*cobra.Command, *Options) {
 	cmd.Flags().StringVarP(&o.FooterFile, "footer-file", "", "", "The file name of the changelog footer in markdown for the changelog. Can use go template expressions on the ReleaseSpec object: https://golang.org/pkg/text/template/")
 
 	o.ScmFactory.AddFlags(cmd)
-	o.BaseOptions.AddBaseFlags(cmd)
+	o.AddBaseFlags(cmd)
 	return cmd, o
 }
 
@@ -770,7 +770,7 @@ func (o *Options) Git() gitclient.Interface {
 }
 
 func (o *Options) addCommit(spec *v1.ReleaseSpec, commit *object.Commit, resolver *users.GitUserResolver, excludeRegexp *regexp.Regexp) {
-	if (!(o.IncludeMergeCommits || o.IncludePRChangelog || len(commit.ParentHashes) <= 1)) ||
+	if (!o.IncludeMergeCommits && !o.IncludePRChangelog && len(commit.ParentHashes) > 1) ||
 		(excludeRegexp != nil && excludeRegexp.MatchString(commit.Message)) {
 		return
 	}
@@ -914,7 +914,7 @@ func (o *Options) getTemplateResult(releaseSpec *v1.ReleaseSpec, templateName, t
 		if templateFile == "" {
 			return "", nil
 		}
-		data, err := os.ReadFile(templateFile)
+		data, err := os.ReadFile(templateFile) //nolint:gosec // path is a CLI flag, not user input
 		if err != nil {
 			return "", err
 		}

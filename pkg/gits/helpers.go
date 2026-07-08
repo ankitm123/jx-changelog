@@ -58,7 +58,7 @@ func NTags(g gitclient.Interface, dir string, n int, prefix string) ([][]string,
 		fields := strings.Split(tag, "\x00")
 
 		if len(fields) != 2 {
-			return nil, fmt.Errorf("Unexpected format for returned tag and sha: '%s'", tagList[n-1])
+			return nil, fmt.Errorf("unexpected format for returned tag and sha: '%s'", tagList[n-1])
 		}
 		res[i] = fields
 	}
