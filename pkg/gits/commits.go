@@ -191,7 +191,7 @@ func GenerateMarkdown(releaseSpec *v1.ReleaseSpec, gitInfo *giturl.GitRepository
 			if du.URL != "" {
 				component = fmt.Sprintf("[%s](%s)", component, du.URL)
 			}
-			buffer.WriteString(fmt.Sprintf("| %s | %s | %s |\n", component, du.ToVersion, du.FromVersion))
+			fmt.Fprintf(&buffer, "| %s | %s | %s |\n", component, du.ToVersion, du.FromVersion)
 		}
 	}
 	if prchangelog && len(prs) > 0 {

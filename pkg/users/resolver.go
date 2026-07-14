@@ -14,13 +14,13 @@ import (
 	jenkinsv1 "github.com/jenkins-x/jx-api/v4/pkg/apis/jenkins.io/v1"
 )
 
-// GitUserResolver allows git users to be converted to Jenkins X users
+// GitUserResolver allows git users to be converted to JayeX users
 type GitUserResolver struct {
 	GitProvider *scm.Client
 	cache       UserDetailService
 }
 
-// GitSignatureAsUser resolves the signature to a Jenkins X User
+// GitSignatureAsUser resolves the signature to a JayeX User
 func (r *GitUserResolver) GitSignatureAsUser(signature *object.Signature) (*jenkinsv1.UserDetails, error) {
 	// We can't resolve no info so shortcircuit
 	if signature.Name == "" && signature.Email == "" {
@@ -33,7 +33,7 @@ func (r *GitUserResolver) GitSignatureAsUser(signature *object.Signature) (*jenk
 	return r.Resolve(gitUser)
 }
 
-// GitUserSliceAsUserDetailsSlice resolves a slice of git users to a slice of Jenkins X User Details
+// GitUserSliceAsUserDetailsSlice resolves a slice of git users to a slice of JayeX User Details
 func (r *GitUserResolver) GitUserSliceAsUserDetailsSlice(users []scm.User) ([]jenkinsv1.UserDetails, error) {
 	var answer []jenkinsv1.UserDetails
 	for k := range users {
@@ -49,7 +49,7 @@ func (r *GitUserResolver) GitUserSliceAsUserDetailsSlice(users []scm.User) ([]je
 	return answer, nil
 }
 
-// Resolve will convert the GitUser to a Jenkins X user and attempt to complete the user info by:
+// Resolve will convert the GitUser to a JayeX user and attempt to complete the user info by:
 // * checking the user custom resources to see if the user is present there
 // * making a call to the gitProvider
 // as often user info is not complete in a git response
@@ -85,7 +85,7 @@ func (r *GitUserResolver) Resolve(user *scm.User) (*jenkinsv1.UserDetails, error
 	u = r.GitUserToUser(scmUser)
 	login := scmUser.Login
 	if login == "" {
-		login = strings.Replace(scmUser.Name, " ", "-", -1)
+		login = strings.ReplaceAll(scmUser.Name, " ", "-")
 		login = strings.ToLower(login)
 	}
 	id := naming.ToValidName(login)
@@ -127,7 +127,7 @@ func (r *GitUserResolver) UpdateUserFromPRAuthor(author *jenkinsv1.User, pullReq
 }
 */
 
-// GitUserToUser performs type conversion from a GitUser to a Jenkins X user,
+// GitUserToUser performs type conversion from a GitUser to a JayeX user,
 // attaching the Git Provider account to Accounts
 func (r *GitUserResolver) GitUserToUser(gitUser *scm.User) *jenkinsv1.UserDetails {
 	return &jenkinsv1.UserDetails{
